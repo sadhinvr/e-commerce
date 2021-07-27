@@ -32,6 +32,7 @@ const schema = joi.object({
     quantity: joi.number().min(1),
     time: joi.number()
 });
+
 route.post('/', userProtect.isAuth, bodyParser,(req, res)=>{
     const card = new CARDS({
         userId: req.session.userId,
@@ -55,6 +56,7 @@ route.post('/', userProtect.isAuth, bodyParser,(req, res)=>{
     })
     
 });
+
 route.post('/delete', userProtect.isAuth,bodyParser,(req, res)=>{
     CARDS.deleteOne({_id: req.body.cardId}).then(()=>{
         req.flash('deleteCard','deleted successfully');
@@ -78,6 +80,30 @@ route.post('/addOrder',userProtect.isAuth,bodyParser,(req, res)=>{
 
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     res.send(postData(fullUrl, req.body))
+})
+
+route.post('/saveall',(req,res)=>{
+    // const card = new CARDS({
+    //     userId: req.session.userId,
+    //     productId: req.body.productId,
+    // });
+
+
+    req.body.forEach(product=>{
+        CARDS.findOneAndUpdate({
+            $and:[
+                { userId: req.session.userId},
+                { productId: product.productId }
+            ]},
+            {quantity: product.quantity, time: Date.now()})
+            .then(()=>{
+            req.flash("cardSaved", "saved");
+        }).catch((err)=>{
+            req.flash("vError",err);
+        })
+    })
+    
+    res.redirect('/card')
 })
 
 

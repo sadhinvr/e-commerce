@@ -97,7 +97,7 @@
     <div class="items">
         <%if(card.length>0){%>
             <%for(let i in card){%>
-                <div class="product mb-2">
+                <div class="product mb-2" data-id="<%=card[i].productId._id%>">
                     <form method="POST">
             
                         <div class="image" style="background-image: url(/<%=card[i].productId.picture%>);"></div>
@@ -112,7 +112,7 @@
                                     <%=card[i].productId.price%>
                                 </span></P>
                             <i class="fas fa-plus" id="<%=card[i].productId._id%>"></i>
-                            <input readonly type="text" name="quantity" value="<%=card[i].quantity%>">
+                            <input readonly type="text" id="quan" name="quantity" value="<%=card[i].quantity%>">
                             <i class="fas fa-minus"></i>
                             <p>total: $<span class="total">
                                     <%=card[i].productId.price * card[i].quantity%>
@@ -129,12 +129,8 @@
                 </div>
                 <%}%>
             
-                <form class="mb-3" action="/card/addOrder" method="POST">
-                <%for(let i=0; i< card.length; i++){%>
-                <input type="hidden" name="productId/<%=i%>" value="<%=card[i].productId._id%>">
-                <input type="hidden" name="quantity/<%=i%>" value="<%=card[i].productId.price * card[i].quantity%>">
-                <%}%>
-                <button>save all</button>
+                <form id="saveall" class="mb-3" action="/card/saveall" method="POST">
+                <button type="submit" class="btn btn-primary">save all</button>
                 </form>
         
         <%}%>
@@ -166,6 +162,52 @@
             $(this).siblings().children('.total').text(num * price)
             // console.log(`price is `)
         });
+
+        async function postData(url = '/', data = {},message='message',alertbox={ele:document.body,l:'afterbegin'}) {
+            function mock(type='success'){
+                return `<div class="alert alert-${type} alert-dismissible fade show text-center" role="alert">
+            ${type=='danger'?'something went worng':message}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            </div>`
+            }
+            // Default options are marked with *
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+             }).then((response) => {
+                        if (response.status > 400 && response.status < 600) {
+                           throw new Error(message);
+                        }
+                            alertbox.ele.insertAdjacentHTML(alertbox.l,mock())
+                            return response;
+                        }).then((returnedResponse) => {
+                        
+                        }).catch((error) => {
+                        alertbox.ele.insertAdjacentHTML(alertbox.l,mock('danger'))
+                        
+                });
+             
+    }
+
+        $('#saveall').on('submit',(e)=>{
+            e.preventDefault();
+            const data = [];
+            document.querySelectorAll('.product').forEach((cur)=>{
+                data.push({
+                    productId:cur.dataset.id,
+                    quantity:cur.querySelector('#quan').value
+                })
+                
+            })
+
+            postData('/card/saveall',data,'Saved',{ele:document.querySelector('#saveall button'),l:'beforebegin'})
+        })
+
         $(window).on('load',function(){
             // let quantity = parseInt($(".items  form .fa-plus").next().val());
             // let price = parseInt($('#price').text());
