@@ -1,0 +1,84 @@
+<%-include('./layouts/header.ejs')%>
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .cent {
+            margin: auto;
+            margin-top: 5%;
+            width: 400px;
+
+            border-radius: 15px;
+
+        }
+
+        .cent .container>form {
+            padding: 30px 20px;
+        }
+
+        .log {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+    <%if (userAdded){%>
+    
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <strong>Success !</strong> <%=userAdded%>.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <%}%>
+    
+    <%if (authError){%>
+    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+        <strong>Error !</strong> <%=authError%>.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <%}%>
+
+    <div class="cent border  shadow">
+        <div class="container">
+            <div class="title d-flex justify-content-center">
+                <h3 style="padding: 10px;">
+                    login
+                </h3>
+            </div>
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        name="email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <div class="log form-group">
+                    <button type="submit" class="btn btn-primary px-3">login</button>
+                    <a class="small" href="/signup">Create account</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    
+
+
+<%-include('./layouts/footer.ejs')%>

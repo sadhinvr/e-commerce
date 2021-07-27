@@ -1,0 +1,141 @@
+/* Global */
+body{
+    transition: background-color 0.3s ease-in-out;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(241, 239, 239);
+    font-family: 'Poppins', sans-serif;
+    color: rgb(75, 75, 75);
+}
+h1{
+    font-size: 70px;
+    line-height: 70px;
+    font-weight: 300;
+    margin: 10px 0;
+
+}
+p{
+    font-size: 20px;
+    margin: 0;
+}
+a{
+    font-size: 30px;
+    font-weight: 200;
+    text-decoration: none;
+    color: rgb(162, 0, 255);
+}
+.big{
+    font-size: 30px;
+    font-weight: 200;
+}
+.small{
+    font-size: 15px;
+    font-weight: 200;
+}
+/* /Global */
+
+
+.super{
+    color: #f79824;
+}
+.background>div{
+    height: 600px;
+    width: 100%;
+    background: url("/background.jpg")no-repeat center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    position:relative;
+}
+.background>div::before{
+    content: "";
+    width: 100%;
+    height: 600px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.background>div h1{color: silver;z-index: 3; padding-left: 20px;}
+.image {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 200px;
+    background-size: cover!important;
+}
+
+/* styling product */
+
+.products form input[type="text"]{
+    width: 40px !important;
+    border: none;
+    text-align: center;
+    background: inherit;
+}
+.products form .btn-card{
+    border: none;
+    background: inherit;
+    float: right;
+    font-size: 25px;
+    color: rgb(162, 0, 255);
+}
+.products form .bgRed{
+    padding: 4px;
+    border-radius: 5px;
+    color: white;
+    background-color: #d2321e;
+}
+.products form .bgRed:hover{
+    cursor: pointer;
+}
+/* /styling product */
+
+/* styling offers */
+.offers{
+    padding: 80px 0 20px 0;
+}
+.offers .container{
+    /* display: flex;
+    justify-content: space-between; */
+    margin-bottom: 0 !important;
+}
+.offers .container .super{
+    font-weight: bold !important;
+    font-size: 12px;
+}
+.offers .container .super:hover{
+    text-decoration: none;
+    color: #ec8609;
+}
+.offers .container .row{
+    margin-bottom: 0;
+}
+.card-title{
+    margin-bottom: 0;
+}
+.card .subtitle{
+    margin-top: 0;
+}
+/* .card .price{
+    display: flex;
+    justify-content: space-between;
+} */
+
+.card .rounded-circle{
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: silver;
+}
+/* /styling offers */
+
+/* about */
+/* .imageVertical{
+    height: 400px;
+    background-size: contain;
+    background: center center no-repeat;
+} */
+
+
+/* /about */

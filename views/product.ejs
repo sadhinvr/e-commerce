@@ -1,0 +1,112 @@
+<%-include('./layouts/header.ejs')%>
+
+<style>
+    .prod-image{
+        min-width: 400px;
+        height: 500px;
+        background-size: cover !important;
+        background: center no-repeat;
+        display: inline-block;
+    }
+    .details h2{
+        font-weight: 200 ;
+        color: rgb(162, 0, 255) ;
+    }
+    .details form{
+        
+    }
+    .details form i.fas{
+        padding: 4px;
+        border-radius: 5px;
+        color: white;
+        background-color: #d2321e;
+    }
+    .details form .fas:hover{
+        cursor: pointer;
+    }
+
+    .details form input[type="text"] {
+        width: 40px !important;
+        border: none;
+        text-align: center;
+        background: inherit;
+        color: rgb(75, 75, 75);;
+    }
+
+    .details form .btn-card{
+        border: none;
+    background: inherit;
+    
+    font-size: 25px;
+    color: rgb(162, 0, 255) ;
+    }
+</style>
+    <div class="container-fluid">
+        <%if(product){%>
+        
+            <!-- <img src="/<%=product.picture%>" class="" alt="<%=product.name%>"> -->
+            <div class="row">
+                <div class="prod-image col-md-6" style="background-image: url(/<%=product.picture%>);"></div>
+        
+                <div class="details col-md-6">
+        
+                    <h2 class="m-3 ">
+                        <%=product.name%>
+                    </h2>
+                    <small class="ml-3 text-muted">
+                        <%=product.type%>
+                    </small>
+                    <p class="ml-3">
+                        <%=product.description%>
+                    </p>
+        
+                    <h5 class="ml-3">price: <%=product.price%>$ </p>
+                    <form action="/card" method="POST">
+                        <input type="hidden" name="productId" value="<%=product._id%>">
+                        <i class="fas fa-plus mr-3" id="<%=product._id%>"></i>
+                        <input readonly type="text" name="quantity" value="1">
+                        <i class="fas fa-minus ml-3"></i><br>
+                        <button class="btn-card"><span class="fas fa-cart-plus"></></button>
+                    </form>
+                    
+                </div>
+            </div>
+        
+            <%}else{%>
+                <div class="alert alert-danger">there is no products matched this id</div>
+        
+                <%}%>
+    </div>
+    
+    
+
+
+<%-include('./layouts/footer.ejs')%>
+
+<script>
+    $(document).ready(() => {
+
+        $(".details  form .fa-plus").on('click', function () {
+            var num = $(this).next().val()
+            num++
+            $(this).next().val(num)
+            let price = parseInt($(this).siblings().children('.price').text());
+            $(this).siblings().children('.total').text(num * price)
+            // console.log($(this).siblings())
+        })
+
+        $(".details  form .fa-minus").on('click', function () {
+            var num = $(this).prev().val();
+            if (num != 1)
+                num--
+            $(this).prev().val(num)
+            let price = parseInt($(this).siblings().children('.price').text());
+            $(this).siblings().children('.total').text(num * price)
+        });
+        $(window).on('load', function () {
+            // let quantity = parseInt($(".items  form .fa-plus").next().val());
+            // let price = parseInt($('#price').text());
+            // $('#total').text(quantity* price);
+        })
+    })
+</script>

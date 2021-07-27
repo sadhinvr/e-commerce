@@ -1,0 +1,175 @@
+<%-include ("./layouts/header")%>
+<!-- <link rel="stylesheet" href="/css/card.css"> -->
+<style>
+    .total{
+        margin-bottom: 20px;
+    }
+    .total h3{
+        font-weight: 200;
+        
+    }
+    .items{
+        min-height: 500px;
+        /* background-color: thistle; */
+    }
+    .items .product{
+        background: #ffba67;
+        margin-top: 10px !important;
+    }
+    .items .product form{
+        display: flex;
+        justify-content: flex-start;
+        
+    }
+    .items .product form .image{
+        width: 250px;
+        height: 250px;
+        background-size: cover;
+        background: center no-repeat;
+        display: inline-block;
+    }
+    .items .product form .details{
+        padding: 1em;
+    }
+    .items .product form .details h2{
+        font-weight: 200;
+        color: rgb(162, 0, 255);
+    }
+    .items .product form .fas {
+        padding: 4px;
+        border-radius: 5px;
+        color: white;
+        background-color: #d2321e;
+    }
+    .items .product form .fas:hover{
+    cursor: pointer;
+}
+    .items .product form input[type="text"] {
+        width: 40px !important;
+        border: none;
+        text-align: center;
+        background: inherit;
+        color: rgb(75, 75, 75);;
+    }
+    .items .product form .btn-remove{
+        background-color: inherit;
+        border: none;
+        color: #ff1d01c7 ;
+    }
+    .items .product form .btn-remove:hover{
+        color: #ff1e00;
+
+    }
+</style>
+
+<%if(cardSaved){%>
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <strong>Success!! </strong>
+        <%=cardSaved%>.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
+    <%}%>
+    <%if (vError){%>
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            <strong>Warning!! </strong>
+            <%=vError%>.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+        <%}%>
+        
+    <%if (deleteCard){%>
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            <strong>Warning!! </strong>
+            <%=deleteCard%>.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+        <%}%>
+<div class="container">
+    <div class="total bg-light p-2">
+        <h3 class="pl-2">card total: $0.00</h3>
+    </div>
+    <div class="items">
+        <%if(card.length>0){%>
+            <%for(let i in card){%>
+                <div class="product mb-2">
+                    <form method="POST">
+            
+                        <div class="image" style="background-image: url(/<%=card[i].productId.picture%>);"></div>
+                        <div class="details">
+                            <h2>
+                                <%=card[i].productId.name%>
+                            </h2>
+                            <small class="text-muted">
+                                <%=card[i].productId.type%>
+                            </small>
+                            <P>Price: $<span class="price">
+                                    <%=card[i].productId.price%>
+                                </span></P>
+                            <i class="fas fa-plus" id="<%=card[i].productId._id%>"></i>
+                            <input readonly type="text" name="quantity" value="<%=card[i].quantity%>">
+                            <i class="fas fa-minus"></i>
+                            <p>total: $<span class="total">
+                                    <%=card[i].productId.price * card[i].quantity%>
+                                </span></p>
+            
+                            <input type="hidden" name="cardId" value="<%=card[i]._id%>">
+                            <button class="btn-remove" formaction="/card/delete">Remove product</button>
+            
+                        </div>
+            
+                    </form>
+            
+            
+                </div>
+                <%}%>
+            
+                <form class="mb-3" action="/card/addOrder" method="POST">
+                <%for(let i=0; i< card.length; i++){%>
+                <input type="hidden" name="productId/<%=i%>" value="<%=card[i].productId._id%>">
+                <input type="hidden" name="quantity/<%=i%>" value="<%=card[i].productId.price * card[i].quantity%>">
+                <%}%>
+                <button>save all</button>
+                </form>
+        
+        <%}%>
+    </div>
+</div>
+
+
+
+<%-include('./layouts/footer.ejs')%>
+
+<script>
+    $(document).ready(() => {
+
+        $(".items  form .fa-plus").on('click', function () {
+            var num = $(this).next().val()
+            num++
+            $(this).next().val(num)
+            let price = parseInt($(this).siblings().children('.price').text());
+            $(this).siblings().children('.total').text(num*price)
+            // console.log($(this).siblings())
+        })
+
+        $(".items  form .fa-minus").on('click', function () {
+            var num = $(this).prev().val();
+            if (num != 1)
+                num--
+            $(this).prev().val(num)
+            let price = parseInt($(this).siblings().children('.price').text());
+            $(this).siblings().children('.total').text(num * price)
+            // console.log(`price is `)
+        });
+        $(window).on('load',function(){
+            // let quantity = parseInt($(".items  form .fa-plus").next().val());
+            // let price = parseInt($('#price').text());
+            // $('#total').text(quantity* price);
+        })
+    })
+</script>

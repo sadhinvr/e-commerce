@@ -1,0 +1,87 @@
+<%-include('./layouts/header.ejs')%>
+<%if(success){%>
+<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+    <strong>Success!!  </strong>  <%=success%>.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<%}%>
+
+<%if (validationError){%>
+<div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+    <strong>Warning!! </strong>  <%=validationError%>.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<%}%>
+
+<%if(failed){%>
+<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+    <strong>Error!!  </strong> <%failed%>.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<%}%>
+
+
+
+<div class="container">
+    <h2 class="text-center">Add Product</h2>
+    <form action="/admin/addProduct" method="POST" autocomplete="on" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" id="name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="type" class="col-sm-2 col-form-label">Type</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="type" id="type">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="description" id="description">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="price" class="col-sm-2 col-form-label">Price</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="price" id="price">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="quantity" class="col-sm-2 col-form-label">Quantity</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="quantity" id="quantity">
+            </div>
+        </div>
+
+
+        <div class="form-group row d-none">
+            <label for="userId" class="col-sm-2 col-form-label">Admin</label>
+            <div class="col-sm-10">
+                <input type="text" value="<%=userId%>" class="form-control" name="userId" id="userId" >
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <label for="picture" class="col-sm-2 col-form-label">Picture</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control" name="picture" id="picture">
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-info float-right">save</button>
+
+        </div>
+    </form>
+
+</div>
+
+<%-include('./layouts/footer.ejs')%>
